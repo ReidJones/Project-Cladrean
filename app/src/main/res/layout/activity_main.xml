@@ -1,16 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.reid.tutorialapplication.MainActivity">
+    android:background="#f4f0ef"
+    android:padding="16dp"
+    tools:context="com.example.reid.tutorialapplication.MainActivity"
+    android:id="@+id/fullscreen_content"
+    >
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
 
     <ImageButton
+        android:id="@+id/fullscreen_content_controls"
         android:layout_width="30pt"
         android:layout_height="30pt"
         android:layout_alignParentBottom="true"
@@ -23,15 +26,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        >
         <Button
-            android:id="@+id/firstButton"
-            android:layout_width="match_parent"
-            android:layout_height="50pt"
-            android:text = "Hello World!"
-        />
+            android:id="@+id/redButton"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:background = "@drawable/red_note"
+            android:text = "Study\n-write meeting notes"
+            />
     </LinearLayout>
-
 
 </RelativeLayout>
