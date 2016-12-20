@@ -1,10 +1,12 @@
 package com.example.reid.tutorialapplication;
 
 import android.annotation.SuppressLint;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             // Delayed display of UI elements
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
-                actionBar.show();
+                //actionBar.show();
             }
             mControlsView.setVisibility(View.VISIBLE);
         }
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private Vibrator myVib;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,8 +95,11 @@ public class MainActivity extends AppCompatActivity {
 
         mVisible = true;
 
+        myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
+        View mRedButton = findViewById((R.id.redButton));
 
 
 
@@ -100,6 +107,21 @@ public class MainActivity extends AppCompatActivity {
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //toggle();
+            }
+        });
+
+        mControlsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                myVib.vibrate(25);
+            }
+        });
+
+        mRedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myVib.vibrate(25);
                 toggle();
             }
         });
@@ -145,8 +167,10 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("InlinedApi")
     private void show() {
         // Show the system bar
+        /*
         mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+                */
         mVisible = true;
 
         // Schedule a runnable to display UI elements after a delay
