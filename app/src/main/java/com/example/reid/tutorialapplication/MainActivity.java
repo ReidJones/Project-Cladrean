@@ -1,14 +1,23 @@
 package com.example.reid.tutorialapplication;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -91,15 +100,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View oldView = inflater.inflate(R.layout.activity_main, null);
+        LinearLayout body = (LinearLayout) oldView.findViewById(R.id.body);
+
+        View itemLayout = inflater.inflate(R.layout.item, body);
+        LinearLayout itemTasks = (LinearLayout) itemLayout.findViewById(R.id.item_layout);
+
+
+        TextView task1 = new TextView(this);
+        task1.setText("-Testing 1");
+
+        itemTasks.addView(task1);
+        //itemLayout.addView(itemTasks);
+        //body.addView(item);
+
+        setContentView(oldView);
+        //setContentView(R.layout.activity_main);
 
         mVisible = true;
 
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
-
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
-        View mRedButton = findViewById((R.id.redButton));
+        View mRedButton = itemLayout;//findViewById((R.id.item_1));
 
 
 
@@ -126,10 +151,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        //findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        TextView txt = task1;//(TextView)findViewById(R.id.item_1_title);
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Bold.ttf");
+        txt.setTypeface(font);
     }
 
     @Override
