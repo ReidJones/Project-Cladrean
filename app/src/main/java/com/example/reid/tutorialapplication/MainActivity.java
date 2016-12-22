@@ -3,6 +3,7 @@ package com.example.reid.tutorialapplication;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +24,7 @@ import org.w3c.dom.Text;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -93,30 +94,40 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
-
+    /**
+     *
+     *  Start of actual code
+     *
+    */
     private Vibrator myVib;
+    private LinearLayout body;
+    private LayoutInflater inflater;
+    private int wrapContent = LinearLayout.LayoutParams.WRAP_CONTENT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(wrapContent, wrapContent);
+        LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(R.dimen.item_width, R.dimen.item_height);
 
-        View oldView = inflater.inflate(R.layout.activity_main, null);
-        LinearLayout body = (LinearLayout) oldView.findViewById(R.id.body);
 
-        View itemLayout = inflater.inflate(R.layout.item, body);
+        body = (LinearLayout) findViewById(R.id.body);
+
+        View itemLayout = inflater.inflate(R.layout.item, null);
         LinearLayout itemTasks = (LinearLayout) itemLayout.findViewById(R.id.item_layout);
 
 
         TextView task1 = new TextView(this);
         task1.setText("-Testing 1");
 
-        itemTasks.addView(task1);
+        itemTasks.addView(task1, lParams);
         //itemLayout.addView(itemTasks);
-        //body.addView(item);
+        body.addView(itemLayout);
 
-        setContentView(oldView);
+
         //setContentView(R.layout.activity_main);
 
         mVisible = true;
@@ -124,25 +135,32 @@ public class MainActivity extends AppCompatActivity {
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
-        View mRedButton = itemLayout;//findViewById((R.id.item_1));
+
+        mControlsView.setOnClickListener(this);
+        //mContentView.setOnClickListener(this);
+
+        itemLayout.setOnClickListener(this);
 
 
 
         // Set up the user interaction to manually show or hide the system UI.
+        /*
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //toggle();
             }
         });
+        */
 
+        /*
         mControlsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                myVib.vibrate(25);
             }
         });
-
+        */
+        /*
         mRedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,11 +168,14 @@ public class MainActivity extends AppCompatActivity {
                 toggle();
             }
         });
+        */
 
         TextView txt = task1;//(TextView)findViewById(R.id.item_1_title);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Bold.ttf");
         txt.setTypeface(font);
     }
+
+
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -209,5 +230,29 @@ public class MainActivity extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    @Override
+    public void onClick(View v) {
+        System.out.println("Click detected: "+v);
+        switch (v.getId()){
+            case R.id.item:
+                myVib.vibrate(25);
+                System.out.println("Clicked Item");
+                break;
+            case R.id.fullscreen_content_controls:
+                myVib.vibrate(25);
+
+                View itemLayout = inflater.inflate(R.layout.item, body);
+                LinearLayout itemTasks = (LinearLayout) itemLayout.findViewById(R.id.item_layout);
+
+
+                TextView task1 = new TextView(v.getContext());
+                task1.setText("-Testing 1");
+
+                itemTasks.addView(task1);
+                //itemLayout.setOnClickListener(this);
+                break;
+        }
     }
 }
