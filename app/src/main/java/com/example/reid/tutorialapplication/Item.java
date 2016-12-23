@@ -1,6 +1,7 @@
 package com.example.reid.tutorialapplication;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +15,10 @@ public class Item extends LinearLayout{
         super(context);
         init();
     }
+    public Item(Context context, String[] details) {
+        super(context);
+        init(details);
+    }
 
     public Item(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -25,12 +30,36 @@ public class Item extends LinearLayout{
         init();
     }
 
+    public LinearLayout main;
     private TextView title;
-    private TextView detail;
+    private LinearLayout details;
+    private Typeface font;
+
+    public static final int NUM_OF_COLORS = 4;
 
     private void init(){
         inflate(getContext(), R.layout.item, this);
+        main = (LinearLayout) findViewById(R.id.item);
+        font = Typeface.createFromAsset(getContext().getAssets(), "fonts/OpenSans-Bold.ttf");
         title = (TextView) findViewById(R.id.item_title);
-        detail = (TextView) findViewById(R.id.item_detail);
+        details = (LinearLayout) findViewById(R.id.item_detail);
+    }
+    private void init(String[] tasks){
+        inflate(getContext(), R.layout.item, this);
+        main = (LinearLayout) findViewById(R.id.item);
+        
+        font = Typeface.createFromAsset(getContext().getAssets(), "fonts/OpenSans-Bold.ttf");
+
+        title = (TextView) findViewById(R.id.item_title);
+        title.setTypeface(font);
+
+        details = (LinearLayout) findViewById(R.id.item_detail);
+        for(int i = 0; i < tasks.length; i++){
+            TextView task = new TextView(getContext());
+            task.setText(tasks[i]);
+
+            task.setTypeface(font);
+            details.addView(task);
+        }
     }
 }

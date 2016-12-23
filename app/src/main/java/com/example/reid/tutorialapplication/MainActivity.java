@@ -27,6 +27,11 @@ import org.w3c.dom.Text;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     /**
+     *
+     *  Boilerplate start
+     *
+     */
+    /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
@@ -97,6 +102,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
     /**
      *
+     *  Boilerplate end
+     *
+     */
+    /**
+     *
      *  Start of actual code
      *
     */
@@ -104,6 +114,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout body;
     private LayoutInflater inflater;
     private int wrapContent = LinearLayout.LayoutParams.WRAP_CONTENT;
+    private final LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(R.dimen.item_width,wrapContent);
+    private String[] testTasks = {"Test 1", "Test 2", "Test 3"};
+    private static int colorCounter = 0;
+
+    private Item createItem(Context context, String[] tasks){
+        Item item = new Item(context, tasks);
+        item.setGravity(Gravity.CENTER_HORIZONTAL);
+        item.setOnClickListener(this);
+
+        switch (colorCounter){
+            case 0: //red
+                item.main.setBackgroundResource(R.drawable.red_note);
+                break;
+            case 1: //orange
+                item.main.setBackgroundResource(R.drawable.orange_note);
+                break;
+            case 2: //yellow
+                item.main.setBackgroundResource(R.drawable.yellow_note);
+                break;
+            case 3: //green
+                item.main.setBackgroundResource(R.drawable.green_note);
+                break;
+        }
+        colorCounter = (colorCounter + 1 == Item.NUM_OF_COLORS) ? 0: colorCounter + 1;
+        return item;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,10 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         body = (LinearLayout) findViewById(R.id.body);
 
-        Item redItem = new Item(this);
-        redItem.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        body.addView(redItem);
+        body.addView(createItem(this, testTasks));
 
         mVisible = true;
 
@@ -125,47 +158,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mContentView = findViewById(R.id.fullscreen_content);
 
         mControlsView.setOnClickListener(this);
-        //mContentView.setOnClickListener(this);
-
-
-
-
-
-        // Set up the user interaction to manually show or hide the system UI.
-        /*
-        mContentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //toggle();
-            }
-        });
-        */
-
-        /*
-        mControlsView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-            }
-        });
-        */
-        /*
-        mRedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myVib.vibrate(25);
-                toggle();
-            }
-        });
-        */
-
-        /*
-        TextView txt = task1;//(TextView)findViewById(R.id.item_1_title);
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Bold.ttf");
-        txt.setTypeface(font);
-        */
+        mContentView.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        myVib.vibrate(25);
+       if(v.getClass().equals(Item.class)){
+           System.out.println("Item Clicked");
+       }
+       else{
+           switch (v.getId()){
+               case R.id.fullscreen_content_controls:
+                   body.addView(createItem(v.getContext(), testTasks));
+                   break;
+               case R.id.fullscreen_content:
+                   System.out.println("Clicked Body");
+                   toggle();
+                   break;
+           }
+       }
+    }
 
+    /**
+     *
+     * Boilerplate start
+     *
+     */
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -220,22 +239,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
-    }
-
-    @Override
-    public void onClick(View v) {
-        System.out.println("Click detected: "+v);
-        switch (v.getId()){
-            case R.id.item:
-                myVib.vibrate(25);
-                System.out.println("Clicked Item");
-                break;
-            case R.id.fullscreen_content_controls:
-                myVib.vibrate(25);
-                Item redButton = new Item(this);
-                redButton.setGravity(Gravity.CENTER_HORIZONTAL);
-                body.addView(redButton);
-                break;
-        }
     }
 }
