@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -110,25 +111,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(wrapContent, wrapContent);
-        LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(R.dimen.item_width, R.dimen.item_height);
-
-
         body = (LinearLayout) findViewById(R.id.body);
 
-        View itemLayout = inflater.inflate(R.layout.item, null);
-        LinearLayout itemTasks = (LinearLayout) itemLayout.findViewById(R.id.item_layout);
+        Item redItem = new Item(this);
+        redItem.setGravity(Gravity.CENTER_HORIZONTAL);
 
-
-        TextView task1 = new TextView(this);
-        task1.setText("-Testing 1");
-
-        itemTasks.addView(task1, lParams);
-        //itemLayout.addView(itemTasks);
-        body.addView(itemLayout);
-
-
-        //setContentView(R.layout.activity_main);
+        body.addView(redItem);
 
         mVisible = true;
 
@@ -139,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mControlsView.setOnClickListener(this);
         //mContentView.setOnClickListener(this);
 
-        itemLayout.setOnClickListener(this);
+
 
 
 
@@ -170,9 +158,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         */
 
+        /*
         TextView txt = task1;//(TextView)findViewById(R.id.item_1_title);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Bold.ttf");
         txt.setTypeface(font);
+        */
     }
 
 
@@ -242,16 +232,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.fullscreen_content_controls:
                 myVib.vibrate(25);
-
-                View itemLayout = inflater.inflate(R.layout.item, body);
-                LinearLayout itemTasks = (LinearLayout) itemLayout.findViewById(R.id.item_layout);
-
-
-                TextView task1 = new TextView(v.getContext());
-                task1.setText("-Testing 1");
-
-                itemTasks.addView(task1);
-                //itemLayout.setOnClickListener(this);
+                Item redButton = new Item(this);
+                redButton.setGravity(Gravity.CENTER_HORIZONTAL);
+                body.addView(redButton);
                 break;
         }
     }

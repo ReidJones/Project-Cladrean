@@ -12,6 +12,24 @@
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
 
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            >
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <ImageButton
         android:id="@+id/fullscreen_content_controls"
         android:layout_width="30pt"
@@ -22,69 +40,5 @@
         android:src="@drawable/plus"
         />
 
-
-    <LinearLayout
-        android:id="@+id/body"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        >
-
-        <!--
-        <LinearLayout
-            android:id="@+id/item_1"
-            android:layout_width= "@dimen/item_width"
-            android:layout_height="@dimen/item_height"
-            android:background = "@drawable/red_note"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            >
-
-
-            <TextView
-                android:id="@+id/item_1_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Study"
-                android:textColor="#000000"
-                android:textSize="32sp"
-                />
-
-
-            <LinearLayout
-                android:paddingTop="10dp"
-                android:id="@+id/item_1_tasks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-Finish WebWork"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-Finish WebWork"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-Finish WebWork"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    />
-
-            </LinearLayout>
-
-        </LinearLayout>
-        -->
-    </LinearLayout>
 
 </RelativeLayout>
