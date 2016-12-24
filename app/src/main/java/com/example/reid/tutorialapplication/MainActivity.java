@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -112,11 +114,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     */
     private Vibrator myVib;
     private LinearLayout body;
+    private ArrayList<Day> days;
     private LayoutInflater inflater;
     private int wrapContent = LinearLayout.LayoutParams.WRAP_CONTENT;
     private final LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(R.dimen.item_width,wrapContent);
     private String[] testTasks = {"Test 1", "Test 2", "Test 3"};
     private static int colorCounter = 0;
+    private static int dayIndex = 1;
+    private static final int DAYS_IN_MONTH = 30;
+
+    public static class Fonts
+    {
+        public static Typeface OPEN_SANS_BOLD;
+        public static Typeface BODINI_XT;
+    }
+
+    private void initTypefaces(){
+        Fonts.OPEN_SANS_BOLD = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Bold.ttf");
+        Fonts.BODINI_XT = Typeface.createFromAsset(getAssets(), "fonts/BodoniXT.ttf");
+    }
 
     private Item createItem(Context context, String[] tasks){
         Item item = new Item(context, tasks);
@@ -146,10 +162,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initTypefaces();
+
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         body = (LinearLayout) findViewById(R.id.body);
+        days = new ArrayList<Day>();
 
-        body.addView(createItem(this, testTasks));
+        for (int i = 0; i < DAYS_IN_MONTH; i++)
+            days.add(new Day(this));
+
+        ArrayList<Item> items = new ArrayList<Item>();
+        items.add(createItem(this, testTasks));
+        items.add(createItem(this, testTasks));
+
+        days.get(0).addItems(items);
+
+
+        for (Day day: days) {
+            body.addView(day);
+        }
+
 
         mVisible = true;
 
@@ -170,7 +202,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        else{
            switch (v.getId()){
                case R.id.fullscreen_content_controls:
-                   body.addView(createItem(v.getContext(), testTasks));
+                   ArrayList<Item> items = new ArrayList<Item>();
+                   items.add(createItem(this, testTasks));
+                   items.add(createItem(this, testTasks));
+                   days.get(dayIndex++).addItems(items);
                    break;
                case R.id.fullscreen_content:
                    System.out.println("Clicked Body");
